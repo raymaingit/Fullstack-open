@@ -11,7 +11,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [searchFilter, setSearchFilter] = useState('')
   
-  // Notification states (Exercise 2.16 & 2.17)
+  // Notification states 
   const [notificationMessage, setNotificationMessage] = useState(null)
   const [notificationType, setNotificationType] = useState('success')
 
@@ -55,12 +55,8 @@ const App = () => {
             setNewNumber('')
           })
           .catch(error => {
-            // Error handling for when entry was already deleted (Exercise 2.17)
-            notify(
-              `Information of '${existingPerson.name}' has already been removed from server`,
-              'error'
-            )
-            setPersons(persons.filter(p => p.id !== existingPerson.id))
+            // Displays Mongoose validation error message from backend
+            notify(error.response.data.error, 'error')
           })
       }
       return
@@ -80,7 +76,8 @@ const App = () => {
         setNewNumber('')
       })
       .catch(error => {
-        notify(`Failed to add ${newName}`, 'error')
+        // Displays Mongoose validation error message from backend (Exercises 3.19/3.20)
+        notify(error.response.data.error, 'error')
       })
   }
 
